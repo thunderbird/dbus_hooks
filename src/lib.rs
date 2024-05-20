@@ -4,6 +4,7 @@
 
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
+use std::env;
 
 mod dbus_ext;
 mod dbus_interface;
@@ -83,7 +84,9 @@ pub trait Tray: Sized {
 
     /// An additional path to add to the theme search path to find the icons.
     fn icon_theme_path(&self) -> String {
-        Default::default()
+        let mut assets_dir = env::current_dir().expect("error");
+        assets_dir.push("assets");
+        assets_dir.display().to_string().into()
     }
 
     /// The item only support the context menu, the visualization
@@ -94,7 +97,24 @@ pub trait Tray: Sized {
     /// The StatusNotifierItem can carry an icon that can be used by the
     /// visualization to identify the item.
     fn icon_name(&self) -> String {
-        Default::default()
+        let my_de = env::var("XDG_CURRENT_DESKTOP").expect("error");
+        let mut preferred_icon = "Thunderbird.svg";
+        if my_de
+            .replace(":", ";")
+            .split(";")
+            .map(|m| m.to_ascii_lowercase())
+            .any(|e| &e == "gnome")
+        {
+            preferred_icon = "tb-symbolic-white.svg";
+        } else if my_de
+            .replace(":", ";")
+            .split(";")
+            .map(|m| m.to_ascii_lowercase())
+            .any(|e| &e == "kde")
+        {
+            preferred_icon = "Thunderbird_Logo_Outline-Light.svg";
+        }
+        preferred_icon.into()
     }
 
     /// Carries an ARGB32 binary representation of the icon
