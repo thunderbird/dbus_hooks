@@ -97,7 +97,7 @@ pub trait Tray: Sized {
     /// The StatusNotifierItem can carry an icon that can be used by the
     /// visualization to identify the item.
     fn icon_name(&self) -> String {
-        let my_de = env::var("XDG_CURRENT_DESKTOP").expect("error");
+        let my_de = env::var("XDG_CURRENT_DESKTOP").expect("Error - no detected Linux desktop");
         let mut preferred_icon = "Thunderbird.svg";
         if my_de
             .replace(":", ";")
