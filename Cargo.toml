@@ -1,13 +1,14 @@
 [package]
-name = "ksni"
+name = "dbus_hooks"
 version = "0.2.2"
-authors = ["iovxw <iovxw@outlook.com>"]
+authors = ["hellsworth <heather@thunderbird.net>"]
 edition = "2021"
 rust-version = "1.58"
 description = """
 A Rust implementation of the KDE/freedesktop StatusNotifierItem specification
+Forked from https://github.com/iovxw/ksni
 """
-repository = "https://github.com/iovxw/ksni"
+repository = "https://github.com/thunderbird/dbus-hooks"
 keywords = ["systray", "linux", "gui"]
 categories = ["api-bindings"]
 license = "Unlicense"

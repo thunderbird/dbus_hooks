@@ -1,4 +1,4 @@
-use ksni;
+use dbus_hooks;
 
 #[derive(Debug)]
 struct MyTray {
@@ -6,7 +6,7 @@ struct MyTray {
     checked: bool,
 }
 
-impl ksni::Tray for MyTray {
+impl dbus_hooks::Tray for MyTray {
     fn icon_name(&self) -> String {
         "help-about".into()
     }
@@ -17,8 +17,8 @@ impl ksni::Tray for MyTray {
     fn id(&self) -> String {
         env!("CARGO_PKG_NAME").into()
     }
-    fn menu(&self) -> Vec<ksni::MenuItem<Self>> {
-        use ksni::menu::*;
+    fn menu(&self) -> Vec<dbus_hooks::MenuItem<Self>> {
+        use dbus_hooks::menu::*;
         vec![
             SubMenu {
                 label: "a".into(),
@@ -91,7 +91,7 @@ impl ksni::Tray for MyTray {
 }
 
 fn main() {
-    let service = ksni::TrayService::new(MyTray {
+    let service = dbus_hooks::TrayService::new(MyTray {
         selected_option: 0,
         checked: false,
     });

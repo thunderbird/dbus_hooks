@@ -1,6 +1,6 @@
 //! A Rust implementation of the KDE/freedesktop StatusNotifierItem specification
 //!
-//! See the [README.md](https://github.com/iovxw/ksni) for an example
+//! See the [README.md](https://github.com/thunderbird/dbus_hooks) for an example
 
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};

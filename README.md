@@ -1,16 +1,16 @@
-# ksni 
+# dbus\_hooks
 
-[![Build Status](https://github.com/iovxw/ksni/workflows/Rust/badge.svg)](https://github.com/iovxw/ksni/actions?query=workflow%3ARust)
-[![Crates](https://img.shields.io/crates/v/ksni.svg)](https://crates.io/crates/ksni)
-[![Documentation](https://docs.rs/ksni/badge.svg)](https://docs.rs/ksni)
+`dbus_hooks` is forked from an upstream crate called `ksni` and modified to fit Thunderbird's needs. You can find the [![upstream `ksni` documentation](https://docs.rs/ksni/badge.svg)](https://docs.rs/ksni)
 [![MSRV](https://img.shields.io/badge/msrv-1.58.0-blue)](https://doc.rust-lang.org/cargo/reference/manifest.html#the-rust-version-field)
 
-A Rust implementation of the KDE/freedesktop StatusNotifierItem specification
+A Rust implementation of the KDE/freedesktop StatusNotifierItem specification.
+
+This crate is used in the [Linux system tray icon](https://github.com/thunderbird/linux-sys-tray/).
 
 ## Example
 
 ```rust
-use ksni;
+use dbus_hooks;
 
 #[derive(Debug)]
 struct MyTray {
@@ -18,7 +18,7 @@ struct MyTray {
     checked: bool,
 }
 
-impl ksni::Tray for MyTray {
+impl dbus_hooks::Tray for MyTray {
     fn icon_name(&self) -> String {
         "help-about".into()
     }
@@ -29,8 +29,8 @@ impl ksni::Tray for MyTray {
     fn id(&self) -> String {
         env!("CARGO_PKG_NAME").into()
     }
-    fn menu(&self) -> Vec<ksni::MenuItem<Self>> {
-        use ksni::menu::*;
+    fn menu(&self) -> Vec<dbus_hooks::MenuItem<Self>> {
+        use dbus_hooks::menu::*;
         vec![
             SubMenu {
                 label: "a".into(),
@@ -103,7 +103,7 @@ impl ksni::Tray for MyTray {
 }
 
 fn main() {
-    let service = ksni::TrayService::new(MyTray {
+    let service = dbus_hooks::TrayService::new(MyTray {
         selected_option: 0,
         checked: false,
     });
@@ -127,16 +127,6 @@ Will create a system tray like this:
 ![screenshot_of_example_in_gnome.png](examples/screenshot_of_example_in_gnome.png)
 
 (In GNOME with AppIndicator extension)
-
-## Todo
- - [X] org.kde.StatusNotifierItem
- - [X] com.canonical.dbusmenu
- - [X] org.freedesktop.DBus.Introspectable
- - [X] org.freedesktop.DBus.Properties
- - [X] radio item
- - [ ] documents
- - [ ] async [diwic/dbus-rs#166](https://github.com/diwic/dbus-rs/issues/166)
- - [X] mutable menu items
 
 ## License
 
